@@ -51,7 +51,7 @@ Situação de cada parte:
 
 ## Por que os tablets ficam lentos
 
-Um tablet raramente fica lento por um único motivo. O hardware continua o mesmo, enquanto o software fica mais exigente (defeitinho programado kkk) e o aparelho acumula desgaste.
+Um tablet raramente fica lento por um único motivo. O hardware continua o mesmo, enquanto o software fica mais exigente e o aparelho acumula desgaste.
 
 | Causa | O que acontece | O projeto resolve? |
 | --- | --- | --- |
@@ -125,6 +125,7 @@ flowchart LR
 | `conectar-tablet-wifi.bat` | Reconecta o ADB sem cabo |
 | `Tutoriais/Passo-a-passo-Galaxy-Tab-A8.md` | Passo a passo completo da otimização, dos emuladores e dos controles |
 | `Tutoriais/Emulador-PS2-ARMSX2.md` | Guia completo do emulador de PS2 |
+| `Tutoriais/App-de-controle.md` | Para que serve o app, como se comunica com o tablet e o que configurar |
 | `Prompt-1-otimizar-tablet.txt` | Prompt para um agente otimizar qualquer tablet |
 | `Prompt-2-emulador.txt` | Prompt para um agente instalar RetroArch, jogos e controles |
 | `Prompt-3-emulador-ps2.txt` | Prompt para um agente instalar o emulador de PS2 |
@@ -247,23 +248,48 @@ A BIOS não faz parte deste projeto. O ARMSX2 pede uma cópia extraída de um PS
 
 ## Usar o celular como controle
 
+O app transforma o celular em controle para jogar no tablet. Há duas versões, e os dois APKs são instalados só no **celular**. A explicação completa, com o funcionamento e a configuração, está em [`Tutoriais/App-de-controle.md`](Tutoriais/App-de-controle.md).
+
+| | BTPad (recomendado) | NetPad |
+| --- | --- | --- |
+| Conexão | Bluetooth | Wi-Fi |
+| Funciona com | Android do tablet, inclusive o RetroArch | Só o RetroArch |
+| Configuração | Parear uma vez | IP do tablet, jogador e RetroPad de rede |
+
 ### BTPad (Bluetooth)
 
-1. Instale o `BTPad.apk` no **celular** e permita o Bluetooth.
-2. Toque em **Config > Tornar visível pra parear**.
-3. No tablet, abra o Bluetooth e pareie com o nome do celular.
-4. O app conecta sozinho. Se não conectar, toque em **CONECTAR**. O status deve ficar verde.
-5. Abra o jogo e mantenha o BTPad aberto na tela do celular. Em segundo plano, o Android desliga o modo controle.
+**Primeira vez:**
+
+1. Copie o `BTPad.apk` para o **celular**, instale e abra. O celular precisa de Android 9 ou superior.
+2. Permita o Bluetooth, que em muitos aparelhos aparece como Dispositivos próximos.
+3. Toque em **Config > Tornar visível pra parear**. O celular fica visível por 5 minutos.
+4. No tablet, abra **Configurações > Conexões > Bluetooth**, procure e toque no nome do celular.
+5. Confirme o código nos dois aparelhos.
+6. O app conecta sozinho. Se não conectar, toque em **CONECTAR**.
+7. Confira se o status mostra **CONECTADO** em verde.
+
+**Nas próximas vezes:** abra o app e espere conectar. Não é preciso parear de novo.
+
+**Durante o jogo:** mantenha o BTPad aberto na tela do celular. Em segundo plano, o Android desliga o modo controle.
+
+**Dois jogadores:** repita os passos no segundo celular. Esse caso ainda não foi testado.
 
 > **Nunca dê permissão de Bluetooth ao BTPad no tablet.** Ele passaria a agir como controle, desligaria a recepção de controles do tablet e se conectaria ao celular ao contrário.
 
-O menu **Config** permite:
+O menu **Config** oferece:
 
-- Escolher setas, analógico ou ambos.
-- Usar as setas com 4 direções (padrão) ou 8 direções.
-- Definir a trava de L1 L2 R1 R2 e a de ✕ ○ □ △: sem trava, segurar por 1 a 3 segundos, ou liga/desliga.
-- Arrastar cada controle para outra posição.
-- Mostrar o diagnóstico da conexão.
+| Opção | O que faz |
+| --- | --- |
+| Direcional | Mostra setas, analógico ou os dois. O analógico também aciona as setas |
+| Setas | 4 direções evita apertar duas setas sem querer; 8 direções permite diagonais |
+| Trava de L1 L2 R1 R2 | Define como os botões de cima travam |
+| Trava de ✕ ○ □ △ | Define como os botões de ação travam |
+| Tempo pra travar | 1, 2 ou 3 segundos, no modo Segurar |
+| Mostrar diagnóstico | Exibe o contador de envios e o log da conexão |
+| Mudar posições | Permite arrastar cada controle. Use Salvar, Padrão ou Sair |
+| Tornar visível pra parear | Deixa o celular visível para um novo pareamento |
+
+Os modos de trava são: **Sem trava**, que age como um botão normal; **Segurar**, que trava depois do tempo escolhido e solta com dois toques; e **Liga/desliga**, que alterna a cada toque.
 
 O BTPad foi validado com o sistema do tablet, mas ainda não dentro do ARMSX2.
 
@@ -281,12 +307,16 @@ O BTPad foi validado com o sistema do tablet, mas ainda não dentro do ARMSX2.
 
 ### NetPad (Wi-Fi)
 
-Use se o Bluetooth não funcionar no seu celular.
+Use se o seu celular não aceitar o modo controle Bluetooth. Só funciona com o RetroArch, e pode ter atraso.
 
-1. No RetroArch, abra **Configurações > Rede** e ligue o **RetroPad de rede** e os usuários 1 e 2.
-2. Feche e abra o RetroArch para as portas entrarem no ar.
-3. Instale o `NetPad.apk` no celular, na mesma rede Wi-Fi.
-4. Informe o IP do tablet e o jogador. O jogador 1 usa a porta 55400 e o jogador 2, a 55401.
+1. Conecte o tablet e o celular à mesma rede Wi-Fi e anote o IP do tablet, nos detalhes da rede.
+2. No RetroArch, abra **Configurações > Rede** e ligue o **RetroPad de rede** e os usuários 1 e 2.
+3. Feche e abra o RetroArch para as portas entrarem no ar.
+4. Instale o `NetPad.apk` no celular e abra.
+5. Na engrenagem, informe o IP do tablet e o jogador. Mantenha a porta base em 55400.
+6. Abra o jogo no RetroArch e mantenha o NetPad aberto no celular.
+
+O jogador 1 usa a porta 55400 e o jogador 2, a 55401. O IP de fábrica do app é `192.168.0.5`, o do tablet de testes, então confira o seu.
 
 ## Compilar os apps
 
